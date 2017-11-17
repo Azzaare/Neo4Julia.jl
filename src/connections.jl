@@ -22,3 +22,38 @@ const SERVER = Dict(
 const DEFAULT_USER_AGENT = "boltkit/0.0" # Unicode ?
 const MAX_CHUNK_SIZE = 65535
 const SOCKET_TIMEOUT = 5
+
+# const DEFAULT = Dict(
+#     "HOST"      => "localhost",
+#     "PORT"      => 7474,
+#     "URI"       => "/db/data/"
+# )
+
+struct ConnectionSettings
+    user::AbstractString
+    password::AbstractString
+    user_agent::AbstractString
+
+    ConnectionSettings(
+        user::AbstractString,
+        password::AbstractString,
+        user_agent::AbstractString = DEFAULT_USER_AGENT
+    ) = new(user, password, user_agent)
+end
+
+struct Request
+    description::AbstractString
+    data::Vector{UInt8}
+
+    Request(
+        description::AbstractString,
+        message::Packable
+    ) = new(description, pack(message))
+end
+
+const REQUESTS = Dict(
+    [
+        (str, Request(str, CLIENT[str]))
+        for str in ["ACK_FAILURE", "RESET", "DISCARD_ALL", "PULL_ALL"]
+    ]
+)

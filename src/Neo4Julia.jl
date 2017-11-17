@@ -2,7 +2,8 @@ __precompile__()
 module Neo4Julia
 
 # Import/Export
-importall PackageStream
+using PackageStream: pack, unpack, Packable
+using MicroLogging
 
 # Includes
 include("connections.jl")
